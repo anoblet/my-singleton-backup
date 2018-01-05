@@ -1,0 +1,21 @@
+<link rel="import" href="../../../../bower_components/polymer/polymer-element.html">
+
+<link rel="import" href="../SingletonMixin.html">
+
+<dom-module id="test-singleton">
+    <template>
+        <input type="text" value$="{{data}}">
+        [[data]]
+    </template>
+    <script>
+            class TestSingleton extends SingletonMixin(Polymer.Element) {
+                static get is() {
+                    return 'test-singleton';
+                }
+            }
+
+            window.customElements.define(TestSingleton.is, TestSingleton);
+        })();
+
+    </script>
+</dom-module>

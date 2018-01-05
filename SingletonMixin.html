@@ -24,7 +24,6 @@
             }
 
             dataChanged(change) {
-                var element = this.constructor.is;
                 if (this.subscribers) {
                     this.subscribers.forEach(e => {
                         e.notifyPath(change.path);
@@ -48,7 +47,6 @@
 
             disconnectedCallback() {
                 super.disconnectedCallback();
-                var element = this.constructor.is;
                 var index = this.subscribers.indexOf(this);
                 if (index > -1) this.subscribers.splice(index, 1)
             }

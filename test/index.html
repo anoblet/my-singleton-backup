@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>Government</title>
+
+    <base href="/">
+
+    <link rel="manifest" href="manifest.json">
+
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Progressive Web App">
+    <link rel="icon" sizes="192x192" href="images/icons/chrome-touch-icon-192x192.png">
+    <script>
+        window.Polymer = {rootPath: '/'};
+
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function () {
+                navigator.serviceWorker.register('service-worker.js', {
+                    scope: Polymer.rootPath,
+                });
+            });
+        }
+    </script>
+
+    <script src="../../../../bower_components/webcomponentsjs/webcomponents-loader.js"></script>
+
+    <link rel="import" href="singleton-test.html">
+
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: inherit;
+        }
+
+        html, body {
+            height: 100vh;
+        }
+
+        html {
+            box-sizing: border-box;
+            font-size: 62.5%;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Roboto', 'Noto', sans-serif;
+            background-color: #eee;
+            display: flex;
+            flex: 1;
+            font-size: 2rem;
+        }
+    </style>
+</head>
+<body>
+<singleton-test></singleton-test>
+<singleton-test></singleton-test>
+</body>
+</html>
