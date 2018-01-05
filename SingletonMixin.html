@@ -1,0 +1,57 @@
+<script>
+    let subscribers = {};
+    let data = {};
+
+    SingletonMixin = function (superClass) {
+        return class extends superClass {
+            static get properties() {
+                return {
+                    subscribers: {
+                        type: Object,
+                        notify: true
+                    },
+                    data: {
+                        type: Object,
+                        notify: true
+                    }
+                }
+            }
+
+            static get observers() {
+                return [
+                    'dataChanged(data.*)',
+                ]
+            }
+
+            dataChanged(change) {
+                var element = this.constructor.is;
+                if (this.subscribers) {
+                    this.subscribers.forEach(e => {
+                        e.notifyPath(change.path);
+                    });
+                }
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+                var element = this.constructor.is;
+                if(!subscribers[element]) {
+                    subscribers[element] = [];
+                }
+                this.subscribers = subscribers[element];
+                this.subscribers.push(this);
+                if(!data[element]) {
+                    data[element] = {};
+                }
+                this.data = data[element];
+            }
+
+            disconnectedCallback() {
+                super.disconnectedCallback();
+                var element = this.constructor.is;
+                var index = this.subscribers.indexOf(this);
+                if (index > -1) this.subscribers.splice(index, 1)
+            }
+        }
+    }
+</script>
