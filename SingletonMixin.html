@@ -1,6 +1,7 @@
 <script>
     let subscribers = {};
     let data = {};
+    let isRoot = false;
 
     SingletonMixin = function (superClass) {
         return class extends superClass {
@@ -12,6 +13,10 @@
                     data: {
                         type: Object,
                         notify: true
+                    },
+                    isRoot: {
+                        type: Boolean,
+                        value: isRoot
                     }
                 }
             }
@@ -23,22 +28,26 @@
             }
 
             dataChanged(change) {
-                if (this.subscribers) {
-                    this.subscribers.forEach(e => {
-                        e.notifyPath(change.path);
-                    });
+                if (!isRoot) {
+                    isRoot = true;
+                    if (this.subscribers) {
+                        this.subscribers.forEach(e => {
+                            e.notifyPath(change.path);
+                        });
+                    }
+                    isRoot = false;
                 }
             }
 
             connectedCallback() {
                 super.connectedCallback();
                 var element = this.constructor.is;
-                if(!subscribers[element]) {
+                if (!subscribers[element]) {
                     subscribers[element] = [];
                 }
                 this.subscribers = subscribers[element];
                 this.subscribers.push(this);
-                if(!data[element]) {
+                if (!data[element]) {
                     data[element] = {};
                 }
                 this.data = data[element];
