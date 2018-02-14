@@ -28,10 +28,14 @@
             }
 
             dataChanged(change) {
+                console.log("Data changed");
+                // console.log(new Error().stack);
+                // console.log(change.path);
                 if (!isRoot) {
                     isRoot = true;
                     if (this.subscribers) {
                         this.subscribers.forEach(e => {
+                            // e.set(change.path, change.value);
                             e.notifyPath(change.path);
                         });
                     }
@@ -51,8 +55,7 @@
                     data[element] = {};
                 }
                 this.data = data[element];
-                console.log(data);
-            }
+                }
 
             disconnectedCallback() {
                 super.disconnectedCallback();
